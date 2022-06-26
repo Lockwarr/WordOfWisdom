@@ -1,4 +1,4 @@
-module sitemapGenerator/WordOfWisdom
+module github.com/Lockwarr/WordOfWisdom
 
 go 1.17
 
