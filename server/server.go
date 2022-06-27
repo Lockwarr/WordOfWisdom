@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"github.com/Lockwarr/WordOfWisdom/internal/hashcash"
+	"github.com/Lockwarr/WordOfWisdom/internal/protocol"
 	"github.com/Lockwarr/WordOfWisdom/internal/repository"
-	"github.com/Lockwarr/WordOfWisdom/protocol"
 )
 
 // Quotes - const array of quotes to respond on client's request
@@ -29,23 +29,27 @@ var Quotes = []string{
 type Server interface {
 	Start(context.Context)
 	ProcessRequest(context.Context, string, string) (*protocol.Message, error)
+	Stop()
 }
 
 type tcpServer struct {
 	port string
 	host string
+	stop chan bool
 	repo repository.Repository
 }
 
+// NewTCPServer - creates a new TCP server
 func NewTCPServer(host, port string, repo repository.Repository) Server {
 	return &tcpServer{
 		port: port,
 		host: host,
 		repo: repo,
+		stop: make(chan bool),
 	}
 }
 
-// implement Start function
+// Start - starts the server
 func (s *tcpServer) Start(ctx context.Context) {
 	// Listen for incoming connections.
 	l, err := net.Listen("tcp", s.host+":"+s.port)
@@ -53,9 +57,18 @@ func (s *tcpServer) Start(ctx context.Context) {
 		log.Println("Error listening:", err.Error())
 		os.Exit(1)
 	}
+
 	// Close the listener when the application closes.
 	defer l.Close()
-	log.Println("Listening on " + s.host + ":" + s.port)
+	log.Println("Listening on ", l.Addr().String())
+
+	go func() {
+		// blocks until we receive on stop channel
+		<-s.stop
+		log.Println("Stopping server")
+		defer l.Close()
+		close(s.stop)
+	}()
 
 	for {
 		// Listen for an incoming connection.
@@ -68,6 +81,11 @@ func (s *tcpServer) Start(ctx context.Context) {
 		go s.handleConnection(ctx, conn)
 
 	}
+}
+
+// Stop sends a stop signal to the server
+func (s *tcpServer) Stop() {
+	s.stop <- true
 }
 
 func (s *tcpServer) handleConnection(ctx context.Context, conn net.Conn) {
@@ -140,7 +158,7 @@ func (s *tcpServer) ProcessRequest(ctx context.Context, message, clientDetails s
 		if err != nil {
 			return nil, fmt.Errorf("err unmarshal hashcash: %w", err)
 		}
-		fmt.Println(stamp)
+
 		// validate hashcash params
 		if !stamp.ValidStamp(ctx, stamp, s.repo) {
 			return nil, fmt.Errorf("invalid hashcash %w", err)

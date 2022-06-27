@@ -4,27 +4,33 @@ import (
 	"context"
 	"encoding/json"
 	"net"
+	"os"
 	"testing"
 	"time"
 
 	"github.com/Lockwarr/WordOfWisdom/internal/hashcash"
+	"github.com/Lockwarr/WordOfWisdom/internal/protocol"
 	"github.com/Lockwarr/WordOfWisdom/internal/repository"
-	"github.com/Lockwarr/WordOfWisdom/protocol"
 	"github.com/Lockwarr/WordOfWisdom/server"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestHandlingConnection(t *testing.T) {
-	// Arrange
+func TestMain(m *testing.M) {
 	repo := repository.NewInMemoryDB()
-	tcpSrvr := server.NewTCPServer("localhost", "8080", repo)
-
+	tcpSrvr := server.NewTCPServer("localhost", "8005", repo)
 	go tcpSrvr.Start(context.Background())
 	time.Sleep(time.Second)
 
+	code := m.Run()
+	tcpSrvr.Stop()
+	os.Exit(code)
+}
+
+func TestHandlingConnection(t *testing.T) {
+	// Arrange
 	// Start client
-	conn, err := net.Dial("tcp", ":8080")
+	conn, err := net.Dial("tcp", ":8005")
 	assert.NoError(t, err)
 	defer conn.Close()
 
@@ -39,9 +45,10 @@ func TestHandlingConnection(t *testing.T) {
 func TestProcessChallengeRequest(t *testing.T) {
 	// Arrange
 	repo := repository.NewInMemoryDB()
-	tcpServer := server.NewTCPServer("localhost", "8080", repo)
+	tcpServer := server.NewTCPServer("", "", repo)
 	message := protocol.Message{Type: protocol.ChallengeRequest, Data: "empty"}
 	msgBytes, err := json.Marshal(message)
+	assert.NoError(t, err)
 
 	// Act
 	// Request challenge
@@ -55,7 +62,7 @@ func TestProcessChallengeRequest(t *testing.T) {
 func TestProcessQuoteRequest(t *testing.T) {
 	// Arrange
 	repo := repository.NewInMemoryDB()
-	tcpServer := server.NewTCPServer("localhost", "8080", repo)
+	tcpServer := server.NewTCPServer("", "", repo)
 	stamp := hashcash.Stamp{}
 
 	// We need to send a challenge request first so we can have an indicator entry in the repo
@@ -89,7 +96,7 @@ func TestProcessQuoteRequest(t *testing.T) {
 func TestProcessUnknownRequest(t *testing.T) {
 	// Arrange
 	repo := repository.NewInMemoryDB()
-	tcpServer := server.NewTCPServer("localhost", "8080", repo)
+	tcpServer := server.NewTCPServer("", "", repo)
 	message := protocol.Message{Type: 7, Data: "empty"}
 	msgBytes, err := json.Marshal(message)
 	assert.NoError(t, err)

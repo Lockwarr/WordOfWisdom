@@ -2,6 +2,7 @@ package client_test
 
 import (
 	"context"
+	"os"
 	"testing"
 	"time"
 
@@ -12,9 +13,20 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestMain(m *testing.M) {
+	repo := repository.NewInMemoryDB()
+	tcpSrvr := server.NewTCPServer("localhost", "8000", repo)
+	go tcpSrvr.Start(context.Background())
+	time.Sleep(time.Second)
+
+	code := m.Run()
+	tcpSrvr.Stop()
+	os.Exit(code)
+}
+
 // func (s *clientTestSuite) TestRequestQuote() {
 // 	// Arrange
-// 	conn, err := net.Dial("tcp", ":8080")
+// 	conn, err := net.Dial("tcp", ":8000")
 // 	s.NoError(err)
 // 	defer conn.Close()
 
@@ -28,24 +40,10 @@ import (
 
 func TestClientRun(t *testing.T) {
 	//Arrange
-	repo := repository.NewInMemoryDB()
-	tcpServer := server.NewTCPServer("localhost", "8080", repo)
-	go tcpServer.Start(context.Background())
-	time.Sleep(time.Second)
 
 	// Act
-	err := client.Run(context.Background(), ":8080")
+	err := client.Run(context.Background(), ":8000")
 
 	// Assert
 	assert.Equal(t, nil, err)
-}
-
-func TestClientRun_WithoutRunningServer_ThenFail(t *testing.T) {
-	//Arrange
-
-	// Act
-	err := client.Run(context.Background(), ":5555")
-
-	// Assert
-	assert.Equal(t, "dial tcp :5555: connect: connection refused", err.Error())
 }

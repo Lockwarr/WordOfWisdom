@@ -1,3 +1,4 @@
+// Used to track random generated numbers used in hashcash.Stamps to prevent replay attacks
 package repository
 
 import (
@@ -27,6 +28,7 @@ func NewInMemoryDB() Repository {
 	return &inMemoryDB{hashcashIndicators: map[int64]time.Time{}, rw: &sync.RWMutex{}}
 }
 
+// AddIndicator - adds indicator to inmemorydb
 func (r *inMemoryDB) AddIndicator(ctx context.Context, indicator int64) error {
 	r.rw.Lock()
 	defer r.rw.Unlock()
@@ -36,7 +38,7 @@ func (r *inMemoryDB) AddIndicator(ctx context.Context, indicator int64) error {
 	return nil
 }
 
-// GetStamp ..
+// GetIndicator - returns indicator from db
 func (r *inMemoryDB) GetIndicator(ctx context.Context, requestedIndicator int64) (int64, error) {
 	r.rw.RLock()
 	defer r.rw.RUnlock()
@@ -49,7 +51,7 @@ func (r *inMemoryDB) GetIndicator(ctx context.Context, requestedIndicator int64)
 	return 0, ErrIndicatorNotFound
 }
 
-// UpdateStamp - removes indicator from db
+// RemoveIndicator - removes indicator from db
 func (r *inMemoryDB) RemoveIndicator(ctx context.Context, newIndicator int64) {
 	r.rw.Lock()
 	defer r.rw.Unlock()

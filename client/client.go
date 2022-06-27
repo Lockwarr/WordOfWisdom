@@ -5,11 +5,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net"
 
 	"github.com/Lockwarr/WordOfWisdom/internal/hashcash"
-	"github.com/Lockwarr/WordOfWisdom/protocol"
+	"github.com/Lockwarr/WordOfWisdom/internal/protocol"
 )
 
 const maxIterations = 10000000
@@ -70,6 +69,7 @@ func requestQuote(ctx context.Context, conn net.Conn) (string, error) {
 	return quoteResponseMessage.Data, nil
 }
 
+// handleChallengeResponse - handles proof of work challenge
 func handleChallengeResponse(resp string) (*protocol.Message, error) {
 	stamp := hashcash.Stamp{}
 
@@ -96,7 +96,7 @@ func handleChallengeResponse(resp string) (*protocol.Message, error) {
 }
 
 // sendMsg - send protocol message to connection
-func sendMsg(msg protocol.Message, conn io.Writer) error {
+func sendMsg(msg protocol.Message, conn net.Conn) error {
 	msgStr := fmt.Sprintf("%s\n", msg.ToJsonString())
 	_, err := conn.Write([]byte(msgStr))
 	return err

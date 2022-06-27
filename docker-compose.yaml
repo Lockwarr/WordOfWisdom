@@ -13,6 +13,9 @@ services:
     build:
       context: .
       dockerfile: client.Dockerfile
+    environment:
+      - CLIENT_MODE=docker
     restart: 'no'
+    network_mode: host
     depends_on:
       - server

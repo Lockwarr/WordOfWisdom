@@ -13,6 +13,7 @@ import (
 
 const zeroByte = 48 // '0'
 
+// Stamp - represents hashcash stamp
 type Stamp struct {
 	Version    int    `json:"version"`
 	ZerosCount int    `json:"zerosCount"`
@@ -22,10 +23,12 @@ type Stamp struct {
 	Counter    int    `json:"counter"`
 }
 
+// ToString - converts stamp to hash string
 func (s Stamp) ToString() string {
 	return fmt.Sprintf("%d:%d:%d:%s::%s:%d", s.Version, s.ZerosCount, s.Date, s.Resource, s.Rand, s.Counter)
 }
 
+// HashToStamp converts hashstring to stamp
 func HashToStamp(hash string) (Stamp, error) {
 	splitHash := strings.Split(hash, ":")
 	if len(splitHash) < 6 {

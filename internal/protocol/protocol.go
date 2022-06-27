@@ -10,12 +10,15 @@ const (
 	Stop
 )
 
-// define struct for the message struct
+// Message - represents a message to be used for communication between tcp server and its' connected clients
 type Message struct {
-	Type int    `json:"type"`
+	// Accepted types of messages are ChallengeRequest, ChallengeResponse, QuoteRequest, QuoteResponse, Stop
+	Type int `json:"type"`
+	// Data could be a challenge in the from of json encoded haschash.Stamp or a quote
 	Data string `json:"data"`
 }
 
+// ToJsonString - encodes protocol.Message to json string
 func (m *Message) ToJsonString() string {
 	msgBytes, _ := json.Marshal(m)
 	return string(msgBytes)
