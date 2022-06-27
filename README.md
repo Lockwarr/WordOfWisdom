@@ -19,8 +19,10 @@ export CLIENT_MODE=docker
 ## Testing
 
 1. Run all tests:
+
     make test-with-component
 2. Run only unit tests:
+
     make test
 
 ## Other Makefile commands
