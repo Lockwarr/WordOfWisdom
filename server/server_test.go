@@ -9,8 +9,8 @@ import (
 
 	"github.com/Lockwarr/WordOfWisdom/internal/hashcash"
 	"github.com/Lockwarr/WordOfWisdom/internal/repository"
-	"github.com/Lockwarr/WordOfWisdom/internal/server"
 	"github.com/Lockwarr/WordOfWisdom/protocol"
+	"github.com/Lockwarr/WordOfWisdom/server"
 
 	"github.com/stretchr/testify/assert"
 )

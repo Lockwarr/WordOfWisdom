@@ -4,14 +4,14 @@ import (
 	"context"
 
 	"github.com/Lockwarr/WordOfWisdom/internal/repository"
-	"github.com/Lockwarr/WordOfWisdom/internal/server"
+	"github.com/Lockwarr/WordOfWisdom/server"
 )
 
 // TODO: start using config file
-const address = ":8080"
+const port = "8080"
 const host = "localhost"
 
 func main() {
-	tcpSrvr := server.NewTCPServer(host, address, repository.NewInMemoryDB())
+	tcpSrvr := server.NewTCPServer(host, port, repository.NewInMemoryDB())
 	tcpSrvr.Start(context.Background())
 }

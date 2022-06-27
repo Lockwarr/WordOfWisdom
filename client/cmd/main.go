@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Lockwarr/WordOfWisdom/internal/client"
+	"github.com/Lockwarr/WordOfWisdom/client"
 )
 
 // TODO: start using config file
@@ -21,7 +21,7 @@ func main() {
 		case "help":
 			log.Println("Available commands: request-quote, start, run, exit, help")
 		case "request-quote", "start", "run":
-			err := client.Run(context.Background(), ":8080")
+			err := client.Run(context.Background(), address)
 			if err != nil {
 				panic(err)
 			}

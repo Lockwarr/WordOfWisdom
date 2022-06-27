@@ -6,6 +6,7 @@ COPY . .
 
 RUN go mod download
 
-RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main ./client/cmd
+RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o client ./client/cmd/main.go
+RUN chmod +X client
 
-CMD ["main"]
+CMD "./client"

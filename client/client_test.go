@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Lockwarr/WordOfWisdom/internal/client"
+	"github.com/Lockwarr/WordOfWisdom/client"
 	"github.com/Lockwarr/WordOfWisdom/internal/repository"
-	"github.com/Lockwarr/WordOfWisdom/internal/server"
+	"github.com/Lockwarr/WordOfWisdom/server"
 
 	"github.com/stretchr/testify/assert"
 )
