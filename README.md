@@ -6,7 +6,8 @@ The code has been tested only on Ubuntu 18.04
 
 ## Requirements
 
-Client mode `local` allows you to type commands to request quotes from the server, where `docker` mode sends one quote and that's it
+Client mode `local` allows you to type commands to request quotes from the server, where `docker` mode sends one quote and that's it.
+If you start the application without docker you can specify `CLIENT_MODE`
 
 `export CLIENT_MODE=local`
 
