@@ -9,7 +9,7 @@ import (
 
 // TODO: start using config file
 const port = "8080"
-const host = "localhost"
+const host = "0.0.0.0"
 
 func main() {
 	tcpSrvr := server.NewTCPServer(host, port, repository.NewInMemoryDB())
