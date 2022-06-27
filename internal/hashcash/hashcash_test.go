@@ -4,10 +4,11 @@ import (
 	"context"
 	"crypto/sha1"
 	"fmt"
-	"sitemapGenerator/WordOfWisdom/internal/hashcash"
-	"sitemapGenerator/WordOfWisdom/internal/repository"
 	"testing"
 	"time"
+
+	"github.com/Lockwarr/WordOfWisdom/internal/hashcash"
+	"github.com/Lockwarr/WordOfWisdom/internal/repository"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -2,11 +2,12 @@ package client_test
 
 import (
 	"context"
-	"sitemapGenerator/WordOfWisdom/internal/client"
-	"sitemapGenerator/WordOfWisdom/internal/repository"
-	"sitemapGenerator/WordOfWisdom/internal/server"
 	"testing"
 	"time"
+
+	"github.com/Lockwarr/WordOfWisdom/internal/client"
+	"github.com/Lockwarr/WordOfWisdom/internal/repository"
+	"github.com/Lockwarr/WordOfWisdom/internal/server"
 
 	"github.com/stretchr/testify/assert"
 )

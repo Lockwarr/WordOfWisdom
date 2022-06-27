@@ -4,10 +4,11 @@ import (
 	"context"
 	"crypto/sha1"
 	"fmt"
-	"sitemapGenerator/WordOfWisdom/internal/repository"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/Lockwarr/WordOfWisdom/internal/repository"
 )
 
 const zeroByte = 48 // '0'

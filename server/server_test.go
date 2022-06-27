@@ -4,12 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"net"
-	"sitemapGenerator/WordOfWisdom/internal/hashcash"
-	"sitemapGenerator/WordOfWisdom/internal/repository"
-	"sitemapGenerator/WordOfWisdom/internal/server"
-	"sitemapGenerator/WordOfWisdom/protocol"
 	"testing"
 	"time"
+
+	"github.com/Lockwarr/WordOfWisdom/internal/hashcash"
+	"github.com/Lockwarr/WordOfWisdom/internal/repository"
+	"github.com/Lockwarr/WordOfWisdom/internal/server"
+	"github.com/Lockwarr/WordOfWisdom/protocol"
 
 	"github.com/stretchr/testify/assert"
 )

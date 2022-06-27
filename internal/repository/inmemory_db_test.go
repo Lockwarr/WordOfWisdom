@@ -2,8 +2,9 @@ package repository_test
 
 import (
 	"context"
-	"sitemapGenerator/WordOfWisdom/internal/repository"
 	"testing"
+
+	"github.com/Lockwarr/WordOfWisdom/internal/repository"
 
 	"github.com/stretchr/testify/assert"
 )

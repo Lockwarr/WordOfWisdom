@@ -9,11 +9,12 @@ import (
 	"math/rand"
 	"net"
 	"os"
-	"sitemapGenerator/WordOfWisdom/internal/hashcash"
-	"sitemapGenerator/WordOfWisdom/internal/repository"
-	"sitemapGenerator/WordOfWisdom/protocol"
 	"strconv"
 	"time"
+
+	"github.com/Lockwarr/WordOfWisdom/internal/hashcash"
+	"github.com/Lockwarr/WordOfWisdom/internal/repository"
+	"github.com/Lockwarr/WordOfWisdom/protocol"
 )
 
 // Quotes - const array of quotes to respond on client's request

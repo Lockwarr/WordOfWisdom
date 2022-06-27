@@ -7,8 +7,9 @@ import (
 	"fmt"
 	"io"
 	"net"
-	"sitemapGenerator/WordOfWisdom/internal/hashcash"
-	"sitemapGenerator/WordOfWisdom/protocol"
+
+	"github.com/Lockwarr/WordOfWisdom/internal/hashcash"
+	"github.com/Lockwarr/WordOfWisdom/protocol"
 )
 
 const maxIterations = 10000000
